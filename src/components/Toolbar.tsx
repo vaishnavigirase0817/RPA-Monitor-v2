@@ -3,8 +3,8 @@ import type { LayoutPreferences, AutomationType, Department } from '../types/typ
 import type { FilterState } from '../hooks/useSortAndFilter';
 import type { ColumnDef } from '../hooks/useColumnManager';
 import type { StreamItem } from '../types/types';
-import { exportToCSV } from '../utils/exportToCSV';
-import { useToast } from './ToastProvider';
+import { useSnapshotExport } from '../hooks/useSnapshotExport';
+import { ExportButton } from './ExportButton';
 
 interface ToolbarProps {
   isPaused: boolean;
@@ -37,7 +37,7 @@ export const Toolbar = ({
 }: ToolbarProps) => {
   const [showColMenu, setShowColMenu] = useState(false);
   const colMenuRef = useRef<HTMLDivElement>(null);
-  const { showToast } = useToast();
+  const { exportSnapshot, isExporting } = useSnapshotExport();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -152,24 +152,16 @@ export const Toolbar = ({
           )}
         </div>
 
-        <button 
-          onClick={() => {
+        <ExportButton 
+          isExporting={isExporting} 
+          onExport={() => {
             if (selectedIds.size > 0) {
-              exportToCSV(processedData.filter(d => selectedIds.has(d.id)));
-              showToast('Selected records exported', 'success');
+              exportSnapshot(processedData.filter(d => selectedIds.has(d.id)));
             } else {
-              exportToCSV(processedData);
-              showToast('All matching records exported', 'success');
+              exportSnapshot(processedData);
             }
-          }}
-          className="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-gray-300 px-3 py-1.5 rounded border border-white/10 transition-colors btn-base btn-ripple text-sm"
-          title="Export to CSV"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-          </svg>
-          Export
-        </button>
+          }} 
+        />
 
         <div className="flex gap-3 border-l border-white/20 pl-4 items-center">
           <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer hover:text-white transition-colors">
