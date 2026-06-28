@@ -52,10 +52,10 @@ export const Toolbar = ({
         {/* Play/Pause Button */}
         <button 
           onClick={onTogglePause}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-bold transition-all ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-md font-bold transition-all btn-base btn-ripple ${
             isPaused 
-              ? 'bg-soft-orange/20 text-soft-orange border border-soft-orange/50 hover:bg-soft-orange/30' 
-              : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500/30'
+              ? 'bg-soft-orange/20 text-soft-orange border border-soft-orange/50 hover:bg-soft-orange/30 shadow-[0_0_10px_rgba(255,159,67,0.3)]' 
+              : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500/30 shadow-[0_0_10px_rgba(0,255,135,0.3)]'
           }`}
         >
           {isPaused ? (

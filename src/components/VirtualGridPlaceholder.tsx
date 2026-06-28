@@ -185,11 +185,13 @@ export const VirtualGridPlaceholder = ({ data, sortCriteria, onSort, isLoading, 
             ))}
             
             {data.length === 0 && (
-              <div className="flex flex-col justify-center items-center h-64 text-gray-500 font-mono gap-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-electric-blue/30">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span>No matching records found. Try clearing filters.</span>
+              <div className="flex flex-col justify-center items-center h-[50vh] text-gray-500 font-mono gap-4 animate-fade-in-up">
+                <img 
+                  src="/src/assets/empty_data.png" 
+                  alt="No Data Found" 
+                  className="w-48 h-48 opacity-50 object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.3)] filter mix-blend-screen"
+                />
+                <span className="text-electric-blue/70 font-semibold tracking-wider">NO MATCHING RECORDS FOUND</span>
               </div>
             )}
           </div>
@@ -223,11 +225,11 @@ const VirtualRow = memo(({ item, columns, onContextMenu, onClick, isPaused, isSe
   
   return (
     <div 
-      className={`flex px-6 items-center border-b border-white/5 transition-colors cursor-context-menu ${
+      className={`flex px-6 items-center border-b border-white/5 transition-all duration-300 cursor-context-menu ${
         isSelected 
           ? 'bg-electric-blue/15 shadow-[inset_4px_0_0_rgba(0,229,255,1)]' 
-          : 'bg-white/5 hover:bg-electric-blue/10'
-      } ${isPaused ? 'cursor-pointer' : ''} ${isError ? 'animate-flash-error' : ''}`}
+          : 'bg-white/5 hover:bg-electric-blue/10 hover:pl-7'
+      } ${isPaused ? 'cursor-pointer' : ''} ${isError ? 'animate-flash-error' : ''} ${item.isNew ? 'animate-highlight-row' : ''}`}
       style={{ height: `${ROW_HEIGHT}px` }}
       onContextMenu={onContextMenu}
       onClick={onClick}

@@ -139,12 +139,30 @@ export const Dashboard = () => {
       />
 
       {!isFullscreen && (
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black">
+          {/* Hero Image Overlay */}
+          <div 
+            className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/src/assets/hero_bg.png')" }}
+          />
           <div className="absolute inset-0 bg-grid opacity-30"></div>
           <div className="radar"></div>
           <div className="scanning-line"></div>
           <div className="orb orb-1"></div>
           <div className="orb orb-2"></div>
+          
+          {/* Floating Particles */}
+          {[...Array(15)].map((_, i) => (
+            <div 
+              key={i} 
+              className="particle" 
+              style={{
+                left: `${Math.random() * 100}vw`,
+                animationDelay: `${Math.random() * 10}s`,
+                animationDuration: `${10 + Math.random() * 10}s`
+              }} 
+            />
+          ))}
         </div>
       )}
 

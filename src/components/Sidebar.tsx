@@ -58,20 +58,23 @@ export const Sidebar = ({ activeTab, onNavigate }: SidebarProps) => {
           <button 
             key={item.name}
             onClick={() => onNavigate(item.name)}
-            className={`flex items-center px-3 py-2.5 mx-2 rounded-lg transition-all group outline-none focus-visible:ring-2 focus-visible:ring-electric-blue ${
+            className={`relative flex items-center px-3 py-2.5 mx-2 rounded-lg transition-all group outline-none focus-visible:ring-2 focus-visible:ring-electric-blue overflow-hidden btn-base btn-ripple ${
               activeTab === item.name 
-                ? 'bg-electric-blue/10 text-electric-blue shadow-[inset_3px_0_0_rgba(0,229,255,1)]' 
-                : 'text-gray-500 hover:bg-white/5 hover:text-gray-300'
+                ? 'text-electric-blue' 
+                : 'text-gray-500 hover:text-gray-300'
             }`}
             title={isCollapsed ? item.name : undefined}
             aria-label={item.name}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-[18px] h-[18px] shrink-0 transition-transform ${activeTab === item.name ? 'scale-110' : 'group-hover:scale-110'}`}>
+            {/* Active highlight background */}
+            <div className={`absolute inset-0 bg-electric-blue/10 shadow-[inset_3px_0_0_rgba(0,229,255,1)] transition-transform duration-300 origin-left ${activeTab === item.name ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-50 group-hover:bg-white/5 group-hover:shadow-none'}`} />
+            
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-[18px] h-[18px] shrink-0 relative z-10 transition-transform ${activeTab === item.name ? 'scale-110' : 'group-hover:scale-110'}`}>
               {item.icon}
             </svg>
-            {!isCollapsed && <span className="ml-3 text-sm font-medium truncate transition-colors">{item.name}</span>}
+            {!isCollapsed && <span className="ml-3 text-sm font-medium truncate relative z-10 transition-colors">{item.name}</span>}
             {!isCollapsed && activeTab === item.name && (
-              <span className="ml-auto w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_6px_rgba(0,229,255,1)] animate-pulse"></span>
+              <span className="ml-auto w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_6px_rgba(0,229,255,1)] animate-pulse-glow relative z-10"></span>
             )}
           </button>
         ))}

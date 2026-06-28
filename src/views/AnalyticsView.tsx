@@ -17,6 +17,10 @@ export const AnalyticsView = () => {
     scales: {
       x: { grid: { color: 'rgba(255,255,255,0.05)' } },
       y: { grid: { color: 'rgba(255,255,255,0.05)' } }
+    },
+    animation: {
+      duration: 2000,
+      easing: 'easeOutQuart' as const,
     }
   };
 
