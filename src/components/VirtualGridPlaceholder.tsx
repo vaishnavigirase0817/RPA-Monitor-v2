@@ -126,8 +126,11 @@ export const VirtualGridPlaceholder = ({ data, sortCriteria, onSort, isLoading, 
         </div>
       )}
 
-      {/* Sticky Header */}
-      <div className="px-6 py-3 border-b border-white/10 bg-navy/80 backdrop-blur-xl z-20 flex text-xs text-gray-400 uppercase tracking-widest sticky top-0 shadow-lg" role="row" aria-label="Column headers">
+      {/* Horizontal Scroll Wrapper for Mobile */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-x-auto custom-scrollbar">
+        <div className="min-w-[1000px] flex flex-col flex-1 h-full">
+          {/* Sticky Header */}
+          <div className="px-6 py-3 border-b border-white/10 bg-navy/80 backdrop-blur-xl z-20 flex text-xs text-gray-400 uppercase tracking-widest shrink-0" role="row" aria-label="Column headers">
         {/* Checkbox Column */}
         <div className="w-10 shrink-0 flex items-center justify-center">
           <input 
@@ -158,11 +161,11 @@ export const VirtualGridPlaceholder = ({ data, sortCriteria, onSort, isLoading, 
         ))}
       </div>
 
-      {/* Virtualized Body */}
-      <div 
-        ref={containerRef}
-        className="flex-1 overflow-y-auto overflow-x-auto relative custom-scrollbar bg-black/20"
-        onScroll={handleScrollProgress}
+          {/* Virtualized Body */}
+          <div 
+            ref={containerRef}
+            className="flex-1 overflow-y-auto relative custom-scrollbar bg-black/20 touch-pan-y"
+            onScroll={handleScrollProgress}
         role="rowgroup"
         aria-label={`Showing ${visibleData.length} of ${data.length} rows`}
       >
@@ -194,6 +197,8 @@ export const VirtualGridPlaceholder = ({ data, sortCriteria, onSort, isLoading, 
                 <span className="text-electric-blue/70 font-semibold tracking-wider">NO MATCHING RECORDS FOUND</span>
               </div>
             )}
+          </div>
+        </div>
           </div>
         </div>
       </div>

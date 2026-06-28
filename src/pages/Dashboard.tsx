@@ -13,6 +13,7 @@ import { CursorSpotlight } from '../components/CursorSpotlight';
 import { CommandPalette } from '../components/CommandPalette';
 import { OnboardingModal } from '../components/OnboardingModal';
 import { InspectorPanel } from '../components/InspectorPanel';
+import { MobileDrawer } from '../components/MobileDrawer';
 import { NotificationDrawer } from '../components/NotificationDrawer';
 import { PerformanceOverlay } from '../components/PerformanceOverlay';
 import { useToast } from '../components/ToastProvider';
@@ -41,6 +42,7 @@ export const Dashboard = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [showPerfOverlay, setShowPerfOverlay] = useState(false);
   const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   const { kpiData, streamData, queueSize, telemetry, notifications, markNotificationRead, markAllNotificationsRead, clearNotifications } = useRPAData(isPaused);
   const { processedData, sortCriteria, handleSort, filters, setFilters } = useSortAndFilter(streamData);
@@ -123,6 +125,7 @@ export const Dashboard = () => {
       <CursorSpotlight />
       <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} actions={commandActions} />
       <OnboardingModal isOpen={isOnboardingOpen} onClose={handleCloseOnboarding} />
+      <MobileDrawer isOpen={isMobileDrawerOpen} onClose={() => setIsMobileDrawerOpen(false)} activeTab={activeTab} onNavigate={setActiveTab} />
       <InspectorPanel />
       <NotificationDrawer 
         isOpen={isNotificationsOpen} 
@@ -174,6 +177,8 @@ export const Dashboard = () => {
             connectionStatus={telemetry.connectionStatus}
             unreadNotifications={unreadCount}
             onNotificationClick={() => setIsNotificationsOpen(true)}
+            activeTab={activeTab}
+            onToggleMobileDrawer={() => setIsMobileDrawerOpen(true)}
           />
         )}
         

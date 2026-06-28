@@ -1,13 +1,16 @@
 import { useMemo } from 'react';
 import type { ConnectionStatus } from '../types/types';
+import type { TabId } from './Sidebar';
 
 interface EnterpriseHeaderProps {
   connectionStatus: ConnectionStatus;
   unreadNotifications: number;
   onNotificationClick: () => void;
+  activeTab: TabId;
+  onToggleMobileDrawer: () => void;
 }
 
-export const EnterpriseHeader = ({ connectionStatus, unreadNotifications, onNotificationClick }: EnterpriseHeaderProps) => {
+export const EnterpriseHeader = ({ connectionStatus, unreadNotifications, onNotificationClick, activeTab, onToggleMobileDrawer }: EnterpriseHeaderProps) => {
   const statusConfig = useMemo(() => {
     switch (connectionStatus) {
       case 'Connected': return { color: 'bg-emerald-500', text: 'text-emerald-400', label: 'Live Connection', ping: true };
@@ -19,10 +22,31 @@ export const EnterpriseHeader = ({ connectionStatus, unreadNotifications, onNoti
   }, [connectionStatus]);
 
   return (
-    <header className="h-14 flex items-center justify-between px-6 border-b border-white/5 shrink-0 bg-black/20 backdrop-blur-sm z-30">
+    <header className="h-14 flex items-center justify-between px-4 md:px-6 border-b border-white/5 shrink-0 bg-black/20 backdrop-blur-sm z-30">
       <div className="flex items-center gap-4">
-        {/* Breadcrumbs */}
-        <nav className="hidden sm:flex text-sm text-gray-400 font-medium" aria-label="Breadcrumb">
+        {/* Mobile Hamburger (visible only on small screens) */}
+        <button
+          onClick={onToggleMobileDrawer}
+          className="flex md:hidden text-gray-400 hover:text-white p-1 -ml-1 rounded hover:bg-white/10 transition-colors"
+          aria-label="Open mobile menu"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+
+        {/* Mobile Active Tab Name */}
+        <div className="flex md:hidden items-center gap-2">
+          <span className="text-white font-bold tracking-widest text-sm flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-electric-blue">
+              <path fillRule="evenodd" d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z" clipRule="evenodd" />
+            </svg>
+            {activeTab}
+          </span>
+        </div>
+
+        {/* Desktop Breadcrumbs */}
+        <nav className="hidden md:flex text-sm text-gray-400 font-medium" aria-label="Breadcrumb">
           <ol className="flex items-center space-x-2">
             <li><a href="#" className="hover:text-white transition-colors">Infrastructure</a></li>
             <li>
@@ -36,12 +60,12 @@ export const EnterpriseHeader = ({ connectionStatus, unreadNotifications, onNoti
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </li>
-            <li className="text-white" aria-current="page">Live Dashboard</li>
+            <li className="text-white" aria-current="page">{activeTab}</li>
           </ol>
         </nav>
       </div>
 
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-3 md:gap-5">
         {/* Connection Status */}
         <div className="flex items-center gap-2">
           <span className="relative flex h-2.5 w-2.5">
@@ -58,7 +82,7 @@ export const EnterpriseHeader = ({ connectionStatus, unreadNotifications, onNoti
           <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-gray-500">Ctrl+K</kbd>
         </div>
 
-        <div className="h-5 w-px bg-white/10"></div>
+        <div className="hidden md:block h-5 w-px bg-white/10"></div>
 
         {/* Notification Bell */}
         <button 
