@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0A192F;
+  --color-black: #000000;
+  --color-electric-blue: #00E5FF;
+  --color-cyan: #00FFFF;
+  --color-purple: #B000FF;
+  --color-emerald: #00FF87;
+  --color-soft-orange: #FF9F43;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white font-sans m-0 p-0 overflow-x-hidden relative min-h-screen;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-navy/60 backdrop-blur-md border border-electric-blue/20 rounded-xl shadow-[0_0_15px_rgba(0,229,255,0.1)] transition-all duration-300;
+  }
+  .glass-panel:hover {
+    @apply border-electric-blue/50 shadow-[0_0_25px_rgba(0,229,255,0.3)] -translate-y-1;
+  }
+  
+  .neon-text {
+    text-shadow: 0 0 5px theme('colors.electric-blue'), 0 0 10px theme('colors.electric-blue');
+  }
+
+  .neon-text-emerald {
+    text-shadow: 0 0 5px theme('colors.emerald'), 0 0 10px theme('colors.emerald');
+  }
+
+  .neon-border {
+    box-shadow: 0 0 5px theme('colors.electric-blue'), inset 0 0 5px theme('colors.electric-blue');
+  }
+}
+
+/* Background Animations */
+.bg-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  animation: gridMove 20s linear infinite;
+}
+
+.scanning-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, theme('colors.cyan'), transparent);
+  box-shadow: 0 0 10px theme('colors.cyan');
+  opacity: 0.5;
+  animation: scan 4s linear infinite;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: floatOrb 10s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  background: theme('colors.purple');
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+}
+
+.orb-2 {
+  background: theme('colors.electric-blue');
+  width: 400px;
+  height: 400px;
+  bottom: -200px;
+  right: -100px;
+  animation-delay: -5s;
+}
+
+@keyframes gridMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(50px); }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(200vh); }
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 30px) scale(1.2); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Entrance Animations */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flash-error {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(255, 99, 71, 0.3); }
+}
+.animate-flash-error {
+  animation: flash-error 2s ease-in-out infinite;
+}
+
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.radar {
+  position: absolute; width: 200vw; height: 200vw; top: -50vw; left: -50vw;
+  background: conic-gradient(from 90deg at 50% 50%, transparent 0deg, rgba(0,229,255,0.05) 90deg, transparent 95deg);
+  animation: radar-sweep 10s linear infinite; pointer-events: none;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
