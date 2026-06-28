@@ -122,7 +122,7 @@ export const useRPAData = (isPaused: boolean) => {
       if (isPaused) {
         queueRef.current.push({ ...newItem, isNew: true });
       } else {
-        let itemsToAdd = [{ ...newItem, isNew: true }];
+        let itemsToAdd: StreamItem[] = [{ ...newItem, isNew: true }];
         if (queueRef.current.length > 0) {
           const chunkSize = Math.min(queueRef.current.length, 5); 
           // Note: Items from the queue were already marked isNew when added to the queue
@@ -155,8 +155,8 @@ export const useRPAData = (isPaused: boolean) => {
           // Reset isNew flag on existing items before adding new ones
           const prevCleaned = prev.map(item => item.isNew ? { ...item, isNew: false } : item);
           const next = [...itemsToAdd, ...prevCleaned];
-          return next.length > MOCK_RPA_DATA_CONFIG.maxBufferSize 
-            ? next.slice(0, MOCK_RPA_DATA_CONFIG.maxBufferSize)
+          return next.length > MOCK_RPA_DATA_CONFIG.maxRows 
+            ? next.slice(0, MOCK_RPA_DATA_CONFIG.maxRows)
             : next;
         });
       }

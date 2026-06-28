@@ -62,6 +62,8 @@ export const LiveTelemetryView = memo(({
           columns={columns}
           onToggleColumn={toggleColumnVisibility}
           onOpenAnalytics={onOpenAnalytics}
+          processedData={processedData}
+          selectedIds={selectedIds}
         />
       )}
 
